@@ -2,7 +2,7 @@ package main;
 
 import diseases.Conditions;
 import diseases.Disease;
-import networkModel.World;
+import networkModel.TestWorld;
 
 public class Main
 {
@@ -11,7 +11,7 @@ public class Main
 	{
 		
 		
-		World world = new World(10000);
+		TestWorld world = new TestWorld(10000);
 		System.out.println("Created world");
 		world.randomizeCellConnections(300);
 		System.out.println("Randomized Connections");

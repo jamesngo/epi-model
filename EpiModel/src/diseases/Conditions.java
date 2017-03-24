@@ -7,6 +7,4 @@ public enum Conditions
 	EXPOSED,
 	INFECTED,
 	REMOVED;
-
-	
 }

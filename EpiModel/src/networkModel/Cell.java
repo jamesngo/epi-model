@@ -33,6 +33,13 @@ public class Cell
 	{
 		this.condition = condition;
 	}
+	
+	public Cell(Cell cell)
+	{
+		this.infectTime = cell.infectTime;
+		this.disease = cell.disease;
+		this.condition = cell.condition;
+	}
 
 	//infects the current cell with disease. Takes a disease as a parameter to infect the cell w/
 	public Cell infect(Disease disease)
@@ -83,11 +90,10 @@ public class Cell
 		Disease currentDisease = null;
 		for(Integer i: connections)
 		{
-			int connectIndex = i;
-			if(world.get(connectIndex).condition == Conditions.INFECTED){
-				if(currentDisease!=world.get(connectIndex).disease) 
+			if(world.get(i).condition == Conditions.INFECTED){
+				if(currentDisease!=world.get(i).disease) 
 				{
-					currentDisease = world.get(connectIndex).disease;
+					currentDisease = world.get(i).disease;
 				}
 				infectedsTouched++;
 			}
@@ -127,5 +133,13 @@ public class Cell
 		{
 			return this;
 		}
+	}
+	
+	public boolean equals(Cell cell)
+	{
+		if(cell.infectTime != this.infectTime) return false;
+		if(cell.disease != this.disease) return false;
+		if(cell.condition != this.condition) return false;
+		else return true;
 	}
 }

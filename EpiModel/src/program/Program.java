@@ -1,13 +1,13 @@
-package graphics;
+package program;
 
 import java.awt.Color;
 
 import javax.swing.JFrame;
 
-public class Window extends JFrame
+public class Program extends JFrame
 {
 
-	public Window()
+	public Program()
 	{
 		super();
 		this.setSize(700, 700);

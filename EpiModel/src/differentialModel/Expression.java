@@ -1,11 +1,26 @@
 package differentialModel;
 
-public class CompartmentConnections {
+import java.util.Stack;
 
-	public int comp1;
-	public int comp2;
-	public int k;
-	public int[] proportional;
-	public int[] inversely;
-	public int[] exponential;
+import diseases.Conditions;
+
+/*
+ * Make more efficient
+ */
+public class Expression {
+	
+	/* 
+	 * has to be space separated post-fix
+	 */
+	public String expression;
+	
+	public int calculate()
+	{
+		Stack<Integer> storedValue = new Stack();
+		for(int i = 0; i < expression.length())
+		{
+			
+		}
+		
+	}
 }
