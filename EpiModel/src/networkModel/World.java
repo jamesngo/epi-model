@@ -17,19 +17,21 @@ public class World
 {
 
 	//Arraylist of Cells
-	ArrayList<Cell> world;
+	private ArrayList<Cell> world;
 	ArrayList<ArrayList<Integer>> connections;
+	ArrayList<Disease> diseasesInWorld;
 	/*
 	 * Creates a world with a certain number of cells and an initial condition
 	 */
 	public World(int cellNum)
 	{
-		world = new ArrayList<Cell>(cellNum);
+		setWorld(new ArrayList<Cell>(cellNum));
 		connections = new ArrayList<ArrayList<Integer>>(cellNum);
+		diseasesInWorld = new ArrayList<Disease>(1);
 		
 		for(int i = 0; i < cellNum; i++)
 		{
-			world.add(new Cell(Conditions.SUSCEPTIBLE));
+			getWorld().add(new Cell(Conditions.SUSCEPTIBLE));
 			connections.add(new ArrayList<Integer>(cellNum));
 		}
 		
@@ -41,7 +43,7 @@ public class World
 	 */
 	public void randomizeCellConnections(int connectionNum)
 	{
-		for(int i = 0; i < world.size(); i++)
+		for(int i = 0; i < getWorld().size(); i++)
 		{
 			for(int k = 0; k < connectionNum; k++)
 			{
@@ -49,7 +51,7 @@ public class World
 			
 				do
 				{
-					location = (int) Math.floor(Math.random()*world.size());
+					location = (int) Math.floor(Math.random()*getWorld().size());
 				}
 				
 				while(location == i || connections.get(i).contains(location));
@@ -65,9 +67,10 @@ public class World
 	 */
 	public void introEpidemic(int outbreakPatients, Disease disease)
 	{
+		diseasesInWorld.add(disease);
 		for(int i = 0; i < outbreakPatients; i++)
 		{
-			world.get((int) (Math.random()* world.size())).infect(disease);
+			getWorld().get((int) (Math.random()* getWorld().size())).infect(disease);
 		}
 	}
 
@@ -77,23 +80,23 @@ public class World
 	 */
 	public void update()
 	{
-		ArrayList<Cell> newWorld = new ArrayList<Cell>(world.size());
+		ArrayList<Cell> newWorld = new ArrayList<Cell>(getWorld().size());
 		
-		for(int i = 0; i < world.size(); i++)
+		for(int i = 0; i < getWorld().size(); i++)
 		{
-			newWorld.add(world.get(i).doesWhatOnUpdate(world, connections.get(i)));
+			newWorld.add(getWorld().get(i).doesWhatOnUpdate(getWorld(), connections.get(i)));
 		}
 		
-		world = newWorld;
+		setWorld(newWorld);
 	}
 	
 	//calculates how many infecteds are in the current population
 	public int howManyInfecteds()
 	{
 		int infecteds = 0;
-		for(int i = 0; i < world.size(); i++)
+		for(int i = 0; i < getWorld().size(); i++)
 		{
-			if(world.get(i).condition == Conditions.INFECTED)
+			if(getWorld().get(i).condition == Conditions.INFECTED)
 			{
 				infecteds++;
 			}
@@ -105,5 +108,13 @@ public class World
 	{
 		return "infecteds:" + howManyInfecteds();
 
+	}
+
+	public ArrayList<Cell> getWorld() {
+		return world;
+	}
+
+	public void setWorld(ArrayList<Cell> world) {
+		this.world = world;
 	}
 }

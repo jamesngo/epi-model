@@ -6,7 +6,7 @@ import diseases.Disease;
 public class TestCell {
 	
 
-	public static void infectedUpdateTest(Cell mock)
+	public static void infectedUpdateTest()
 	{
 		infectTest(mock, new Disease(.1,.1,.1,Conditions.SUSCEPTIBLE));
 		Cell oldState = new Cell(mock);
@@ -20,16 +20,16 @@ public class TestCell {
 		System.out.println("infectedUpdate test passed");
 	}
 	
-	public static void testImmuneUpdate()
+	public static void immuneUpdateTest()
 	{
 		
 	}
 	
-	public static void susceptibleUpdateTest(Cell mock, World mockWorld)
+	public static void susceptibleUpdateTest()
 	{
 		int location = findCellLocation(mock, mockWorld);
 		Cell oldState = new Cell(mock);
-		Cell newCell = mock.susceptibleUpdate(mockWorld.world, mockWorld.connections.get(location));
+		Cell newCell = mock.susceptibleUpdate(mockWorld.getWorld(), mockWorld.connections.get(location));
 		assert mock.equals(oldState) : "Mock has been modified";
 		assert newCell.condition == Conditions.SUSCEPTIBLE
 				|| newCell.condition == Conditions.INFECTED
@@ -40,11 +40,11 @@ public class TestCell {
 		
 	}
 	
-	public static void removedUpdateTest(Cell mock, World mockWorld)
+	public static void removedUpdateTest()
 	{
 		int location = findCellLocation(mock, mockWorld);
 		Cell oldState = new Cell(mock);
-		Cell newCell = mock.immuneUpdate(mockWorld.world, mockWorld.connections.get(location));
+		Cell newCell = mock.immuneUpdate(mockWorld.getWorld(), mockWorld.connections.get(location));
 		assert mock.equals(oldState);
 		assert newCell.condition == Conditions.REMOVED || 
 				newCell.condition == Conditions.SUSCEPTIBLE
@@ -55,11 +55,15 @@ public class TestCell {
 	
 	public static void recoverTest()
 	{
-		
+		assert mock.condition == Conditions.INFECTED : "No reason to recover, cell is not infected";
+		mock.recover();
+		assert mock.condition == Conditions.SUSCEPTIBLE || mock.condition == Conditions.REMOVED : "Cell not correctly recovered";
+		assert mock.infectTime == 0 : "infectTime was not reset to zero";
+		assert mock.disease == null : "Disease was not added to mock cell obj";
 	}
 	
 	//not a pure function, edits stuff
-	public static void infectTest(Cell mock, Disease disease)
+	public static void infectTest()
 	{
 		mock.infect(disease);
 		assert mock.condition == Conditions.INFECTED : "Could not infect Cell";
@@ -72,10 +76,10 @@ public class TestCell {
 	public static int findCellLocation(Cell cell, World world)
 	{
 		int location = 0;
-		for(int i = 0; i < world.world.size(); i++)
+		for(int i = 0; i < world.getWorld().size(); i++)
 		{
-			if(world.world.get(i)==cell) break;
-			if(i==world.world.size()-1) assert false : "World does not contained specified cell"; 
+			if(world.getWorld().get(i)==cell) break;
+			if(i==world.getWorld().size()-1) assert false : "World does not contained specified cell"; 
 			location++;
 		}
 		return location;
