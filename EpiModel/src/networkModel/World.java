@@ -117,4 +117,19 @@ public class World
 	public void setWorld(ArrayList<Cell> world) {
 		this.world = world;
 	}
+	
+	public Cell getCell(int index) {
+		return world.get(index);
+	}
+	
+	public void setCell(int index, Cell cell)
+	{
+		world.set(index, cell);
+	}
+	
+	public ArrayList<Integer> getConnections(int cellIndex)
+	{
+		return connections.get(cellIndex);
+	}
+	
 }
